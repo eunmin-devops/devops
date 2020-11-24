@@ -1,0 +1,99 @@
+{
+  "resources" : [ {
+    "com.wm.pkg.art.adminapi.res.listeners.ListenerResource" : [ {
+      "method" : "stateChange",
+      "httpMethod" : "PUT",
+      "urlTemplate" : "/admin/adapters/listener/{listenerAlias}",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "delete",
+      "httpMethod" : "DELETE",
+      "urlTemplate" : "/admin/adapters/listener/{listenerAlias}",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "get",
+      "httpMethod" : "GET",
+      "urlTemplate" : "/admin/adapters/listener/{adapterTypeName}/{connectionAlias}/{listenerAlias}/",
+      "input" : "",
+      "output" : ""
+    } ]
+  }, {
+    "com.wm.pkg.art.adminapi.res.notifications.NotificationResource" : [ {
+      "method" : "stateChange",
+      "httpMethod" : "PUT",
+      "urlTemplate" : "/admin/adapters/notification/{notificationAlias}",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "delete",
+      "httpMethod" : "DELETE",
+      "urlTemplate" : "/admin/adapters/notification/{notificationAlias}",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "get",
+      "httpMethod" : "GET",
+      "urlTemplate" : "/admin/adapters/notification/{adapterTypeName}/{notificationAlias}/",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "list",
+      "httpMethod" : "GET",
+      "urlTemplate" : "/admin/adapters/notification/{adapterTypeName}/",
+      "input" : "",
+      "output" : ""
+    } ]
+  }, {
+    "com.wm.pkg.art.adminapi.res.connections.ConnectionResource" : [ {
+      "method" : "get",
+      "httpMethod" : "GET",
+      "urlTemplate" : "/admin/adapters/connection/{adapterTypeName}/{connectionAlias}/",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "post",
+      "httpMethod" : "POST",
+      "urlTemplate" : "/admin/adapters/connection/",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "stateChange",
+      "httpMethod" : "PUT",
+      "urlTemplate" : "/admin/adapters/connection/{connectionAlias}",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "delete",
+      "httpMethod" : "DELETE",
+      "urlTemplate" : "/admin/adapters/connection/{connectionAlias}",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "list",
+      "httpMethod" : "GET",
+      "urlTemplate" : "/admin/adapters/connection/{adapterTypeName}/",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "describe",
+      "httpMethod" : "GET",
+      "urlTemplate" : "/admin/adapters/describe/{adapterTypeName}/connection/{connectionFactoryTypeName}/",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "describeConnectionFactory",
+      "httpMethod" : "GET",
+      "urlTemplate" : "/admin/adapters/describe/{adapterTypeName}/connection/",
+      "input" : "",
+      "output" : ""
+    }, {
+      "method" : "update",
+      "httpMethod" : "PATCH",
+      "urlTemplate" : "/admin/adapters/connection/{connectionAlias}",
+      "input" : "",
+      "output" : ""
+    } ]
+  } ]
+}

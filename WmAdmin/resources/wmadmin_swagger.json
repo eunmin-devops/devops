@@ -1,0 +1,1087 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Integration Server Administrative API",
+    "description" : "Integration Server Administrative API",
+    "version" : "1.0",
+    "contact" : {
+      "name" : "Software AG Global Support",
+      "url" : "https://softwareag.com/support",
+      "email" : "support@softwareag.com"
+    },
+    "license" : {
+      "name" : "Software AG License",
+      "url" : "https://softwareag.com/license"
+    }
+  },
+  "servers" : [ {
+    "url" : "https://Your-Host:Your-Port",
+    "description" : "Integration Server Administrative API URL",
+    "variables" : {
+      "host" : {
+        "default" : "Your-Host",
+        "description" : "Host name for Integration Server Administrative API"
+      },
+      "port" : {
+        "default" : "Your-Port",
+        "description" : "Integration Server Administrative API port number"
+      }
+    }
+  } ],
+  "paths" : {
+    "/admin/server" : {
+      "get" : {
+        "summary" : "Retrieves information about the server.",
+        "tags" : [ "server" ],
+        "responses" : {
+          "200" : {
+            "description" : "Information about this Integration Server.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServerAbout"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Performs administrative actions on the server.",
+        "tags" : [ "server" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "action",
+          "required" : true,
+          "schema" : {
+            "description" : "Action to take on an Integration Server instance.",
+            "type" : "string",
+            "enum" : [ "stop", "restart", "restartQuiesce", "quiesce", "exitQuiesce" ]
+          }
+        }, {
+          "in" : "query",
+          "name" : "force",
+          "required" : false,
+          "schema" : {
+            "description" : "Performs action immediately even if there are active sessions.",
+            "type" : "boolean"
+          }
+        }, {
+          "in" : "query",
+          "name" : "timeoutMinutes",
+          "required" : false,
+          "schema" : {
+            "description" : "When force is false, performs action when all active sessions have ended or after timeoutMinutes, whichever comes first. timeoutMinutes defaults to the watt.server.clientTimeout value.",
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/server/diagnostics" : {
+      "get" : {
+        "summary" : "Returns a diagnostic archive as a ZIP attachment.",
+        "tags" : [ "server" ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/package" : {
+      "get" : {
+        "summary" : "Retrieves all packages.",
+        "tags" : [ "packages" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "expand",
+          "required" : false,
+          "schema" : {
+            "description" : "Indicate whether links in the response should be expanded",
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "All of the installed, activated packages on Integration Server.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Packages"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/server/updates" : {
+      "get" : {
+        "summary" : "Retrieves information about fixes installed on the server.",
+        "tags" : [ "server" ],
+        "responses" : {
+          "200" : {
+            "description" : "All installed updates (fixes) on this Integration Server.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServerUpdates"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/package/{packageName}" : {
+      "get" : {
+        "summary" : "Gets package information.",
+        "tags" : [ "packages" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "packageName",
+          "schema" : {
+            "type" : "string"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Information for a package.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PackageInfoOut"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Performs an administrative action on an installed package.",
+        "tags" : [ "packages" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "packageName",
+          "schema" : {
+            "type" : "string"
+          },
+          "required" : true
+        }, {
+          "in" : "query",
+          "name" : "action",
+          "required" : true,
+          "schema" : {
+            "description" : "The action to take on a package where 'disable' disables a package, 'enable' enables a package, 'reload' reloads a package, and 'activate' activates a package. Additionally, the 'start' action enables a package, the 'stop' action disables a package and the 'restart' action reloads a package.",
+            "type" : "string",
+            "enum" : [ "disable", "enable", "reload", "activate" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Result of an administrative action on a package.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PackagesManagerActionOut"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/swagger/{productName}" : {
+      "get" : {
+        "summary" : "Retrieves the Swagger document for a product's API.",
+        "tags" : [ "server" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "productName",
+          "schema" : {
+            "type" : "string"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/license/" : {
+      "put" : {
+        "summary" : "Updates Terracotta license file or Integration Server license key file.",
+        "tags" : [ "server" ],
+        "requestBody" : {
+          "required" : true,
+          "description" : "Updates the path to where the license key file or Terracotta license file is stored.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LicenseUpdateIn"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "License details in Integration Server.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LicenseOut"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get" : {
+        "summary" : "Retrieves license information.",
+        "tags" : [ "server" ],
+        "responses" : {
+          "200" : {
+            "description" : "License details in Integration Server.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LicenseOut"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "summary" : "Updates Terracotta license file or Integration Server license key file.",
+        "tags" : [ "server" ],
+        "requestBody" : {
+          "required" : true,
+          "description" : "Updates the path to where the license key file or Terracotta license file is stored.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LicenseUpdateIn_Patch"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "License details in Integration Server.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LicenseOut"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Updates Terracotta license file or Integration Server license key file.",
+        "tags" : [ "server" ],
+        "requestBody" : {
+          "required" : true,
+          "description" : "Updates the path to where the license key file or Terracotta license file is stored.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LicenseUpdateIn"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "License details in Integration Server.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LicenseOut"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/swagger" : {
+      "get" : {
+        "summary" : "Retrieves the Swagger documents for all administrative APIs in the Integration Server.",
+        "tags" : [ "server" ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "LicenseUpdateIn" : {
+        "type" : "object",
+        "properties" : {
+          "licenseKeyFile" : {
+            "description" : "The path to where the license key file is stored.",
+            "type" : "string"
+          },
+          "terracottaLicenseFile" : {
+            "description" : "The path to where the Terracotta license file is stored",
+            "type" : "string"
+          }
+        }
+      },
+      "IntegrationServer" : {
+        "type" : "object",
+        "properties" : {
+          "productCode" : {
+            "description" : "Software AG code for this product: PIE.",
+            "type" : "string"
+          },
+          "productVersion" : {
+            "description" : "Software AG product version number.",
+            "type" : "number",
+            "format" : "float"
+          },
+          "concurrentSessions" : {
+            "description" : "Maximum number of concurrent sessions licensed for the server.",
+            "type" : "string"
+          },
+          "clustering" : {
+            "description" : "Whether clustering is licensed. ",
+            "type" : "boolean"
+          },
+          "publishOrSubscribe" : {
+            "description" : "Whether publish-subscribe is licensed.",
+            "type" : "boolean"
+          },
+          "adapterRuntime" : {
+            "description" : "Whether the Adapter Runtime is licensed.",
+            "type" : "boolean"
+          },
+          "remoteInvoke" : {
+            "description" : "Whether remote invoke is licensed.",
+            "type" : "boolean"
+          },
+          "guaranteedDelivery" : {
+            "description" : "Whether guaranteed delivery is licensed.",
+            "type" : "boolean"
+          },
+          "securityAuditing" : {
+            "description" : "Whether security auditing is licensed.",
+            "type" : "boolean"
+          },
+          "distributedCache" : {
+            "description" : "Whether a distributed cache is licensed.",
+            "type" : "boolean"
+          },
+          "enterpriseGateway" : {
+            "description" : "Whether Enterprise Gateway is licensed.",
+            "type" : "boolean"
+          },
+          "microservices" : {
+            "description" : "Whether Microservices is licensed.",
+            "type" : "boolean"
+          }
+        }
+      },
+      "SystemInfo" : {
+        "type" : "object",
+        "properties" : {
+          "architecture" : {
+            "description" : "CPU chip architecture",
+            "type" : "string"
+          },
+          "cpuCores" : {
+            "description" : "Number of CPU cores",
+            "type" : "string"
+          },
+          "cpuType" : {
+            "description" : "Type of CPU",
+            "type" : "string"
+          },
+          "hwMemory" : {
+            "description" : "Amount of computer memory in gigabytes",
+            "type" : "string"
+          },
+          "hostname" : {
+            "description" : "Host computer name",
+            "type" : "string"
+          },
+          "osName" : {
+            "description" : "Operating system name",
+            "type" : "string"
+          },
+          "osRelease" : {
+            "description" : "Operating system version",
+            "type" : "string"
+          },
+          "osServicePack" : {
+            "description" : "Operating system service pack",
+            "type" : "string"
+          }
+        }
+      },
+      "PackageInfoOut" : {
+        "type" : "object",
+        "required" : [ "listACL", "code" ],
+        "properties" : {
+          "packageName" : {
+            "description" : "Name of the package",
+            "type" : "string"
+          },
+          "loadok" : {
+            "description" : "Number of elements that loaded successfully.  ",
+            "type" : "string"
+          },
+          "loaderr" : {
+            "description" : "Number of elements that generated errors and could not be loaded when the package was installed or relaoded. ",
+            "type" : "string"
+          },
+          "loadwarning" : {
+            "description" : "Number of elements that generated warnings when the package was installed or reloaded.",
+            "type" : "string"
+          },
+          "startupServices" : {
+            "description" : "A list of startup services.",
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "shutdownServices" : {
+            "description" : "A list of shutdown services.",
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "version" : {
+            "description" : "Version of the package.",
+            "type" : "string"
+          },
+          "build" : {
+            "description" : "Build number of the package.",
+            "type" : "string"
+          },
+          "description" : {
+            "description" : "Description of the package.",
+            "type" : "string"
+          },
+          "jvm_version" : {
+            "description" : "Minimum version of the JVM required to run this package.",
+            "type" : "string"
+          },
+          "publisher" : {
+            "description" : "Publisher of the package.",
+            "type" : "string"
+          },
+          "listACL" : {
+            "description" : "Access Control List assigned to the package",
+            "type" : "string"
+          },
+          "successors" : {
+            "description" : "Packages that depend on this package,",
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "predecessors" : {
+            "description" : "Packages on which this package depends.",
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "message" : {
+            "description" : "Status response message returned from internal service that retrieves package information.",
+            "type" : "string"
+          },
+          "code" : {
+            "description" : "Status response code returned from internal service that retrieves package information.",
+            "type" : "string"
+          }
+        }
+      },
+      "ServerAbout" : {
+        "type" : "object",
+        "properties" : {
+          "productname" : {
+            "description" : "Name of the product: Integration Server",
+            "type" : "string"
+          },
+          "instancename" : {
+            "description" : "Name of the Integration Server instance.",
+            "type" : "string"
+          },
+          "version" : {
+            "description" : "Integration Server version.",
+            "type" : "string"
+          },
+          "build" : {
+            "description" : "Integration Server build number.",
+            "type" : "string"
+          },
+          "ssl" : {
+            "description" : "Status of JCE Unlimited Strength policy.",
+            "type" : "string"
+          },
+          "clustered" : {
+            "description" : "Whether this instance is a member of an Integration Server cluster.",
+            "type" : "boolean"
+          },
+          "systemAttrs" : {
+            "description" : "JVM and product information.",
+            "$ref" : "#/components/schemas/SystemAttrs"
+          },
+          "systemInfo" : {
+            "description" : "Operation system and device information.",
+            "$ref" : "#/components/schemas/SystemInfo"
+          },
+          "securityProviders" : {
+            "description" : "Security providers",
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SecurityProviders"
+            }
+          }
+        }
+      },
+      "Error" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "description" : "Error message",
+            "type" : "string"
+          },
+          "stackTrace" : {
+            "description" : "Error stack trace. Returned when watt.adminapi.returnExceptions is 'true'.",
+            "type" : "string"
+          }
+        }
+      },
+      "ProductInformation" : {
+        "type" : "object",
+        "properties" : {
+          "expirationDate" : {
+            "description" : "The date the license expires.",
+            "type" : "string"
+          },
+          "operatingSystem" : {
+            "description" : "Operating systems on which Integration Server is licensed to run .",
+            "type" : "string"
+          },
+          "productCode" : {
+            "description" : "Software AG code for the product: PIE.",
+            "type" : "string"
+          },
+          "productName" : {
+            "description" : "Name of product.",
+            "type" : "string"
+          },
+          "productVersion" : {
+            "description" : "Version of product.",
+            "type" : "number",
+            "format" : "float"
+          },
+          "usage" : {
+            "description" : "The environment on which the licensed server will be used. For example Production.",
+            "type" : "string"
+          },
+          "renewalDate" : {
+            "description" : "Renewal date which is the expirationDate minus 28 days.",
+            "type" : "string"
+          },
+          "higherLevPosNr" : {
+            "description" : "Higher level Pos. Nr., if license key is for bundled component.",
+            "type" : "string"
+          },
+          "higherLevProdCode" : {
+            "description" : "Higher level product code, if license key is for bundled component.",
+            "type" : "string"
+          },
+          "higherLevProdName" : {
+            "description" : "Name of bundle, if license key is for bundled component.",
+            "type" : "string"
+          }
+        }
+      },
+      "LicenseOut" : {
+        "type" : "object",
+        "properties" : {
+          "SalesInformation" : {
+            "description" : "Sales information details.",
+            "$ref" : "#/components/schemas/SalesInformation"
+          },
+          "ProductInformation" : {
+            "description" : "Product information details.",
+            "$ref" : "#/components/schemas/ProductInformation"
+          },
+          "IntegrationServer" : {
+            "description" : "Integration Server details.  ",
+            "$ref" : "#/components/schemas/IntegrationServer"
+          },
+          "LicenseInformation" : {
+            "description" : "License type details.  ",
+            "$ref" : "#/components/schemas/LicenseInformation"
+          },
+          "TradingNetworks" : {
+            "description" : "Trading Networks details. This appears if the Integration Server is licensed to run with Trading Networks.",
+            "$ref" : "#/components/schemas/TradingNetworks"
+          },
+          "Terracotta" : {
+            "description" : "Terracotta details shown on the license. ",
+            "$ref" : "#/components/schemas/Terracotta"
+          }
+        }
+      },
+      "ServerUpdates" : {
+        "type" : "object",
+        "properties" : {
+          "serverUpdates" : {
+            "description" : "The installed core updates on this Integration Server.",
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "packageUpdates" : {
+            "description" : "The installed updates for all packages on this Integration Server.",
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PackageUpdates"
+            }
+          }
+        }
+      },
+      "SecurityProviders" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "description" : "Security provider name",
+            "type" : "string"
+          },
+          "version" : {
+            "description" : "Security provider version",
+            "type" : "number",
+            "format" : "float"
+          },
+          "KeyStoreTypes" : {
+            "description" : "Types of keystores used by the security provider",
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "SystemAttrs" : {
+        "type" : "object",
+        "properties" : {
+          "currentUser" : {
+            "description" : "Name of the current user.",
+            "type" : "string"
+          },
+          "dataDirectVersion" : {
+            "description" : "Version of the DataDirect Connect drivers used by Integration Server.",
+            "type" : "string"
+          },
+          "javaBuildInfo" : {
+            "description" : "Details about the Java VM's build.",
+            "type" : "string"
+          },
+          "javaClasspath" : {
+            "description" : "The Java classpath.",
+            "type" : "string"
+          },
+          "javaDataModel" : {
+            "description" : "The Java data model.",
+            "type" : "string"
+          },
+          "javaEntrustToolkitVersion" : {
+            "description" : "The Entrust Toolkit version.",
+            "type" : "string"
+          },
+          "javaHome" : {
+            "description" : "The Java home directory.",
+            "type" : "string"
+          },
+          "javaVmName" : {
+            "description" : "Name of the Java VM.",
+            "type" : "string"
+          },
+          "javaVendor" : {
+            "description" : "Java VM manufacturer.",
+            "type" : "string"
+          },
+          "javaVersion" : {
+            "description" : "Java version.",
+            "type" : "string"
+          },
+          "serverClasspath" : {
+            "description" : "Integration Server classpath.",
+            "type" : "string"
+          },
+          "serverInstanceName" : {
+            "description" : "Name of Integration Server instance.",
+            "type" : "string"
+          },
+          "serverProcessId" : {
+            "description" : "Operation system process ID of this Integration Server instance.",
+            "type" : "string"
+          },
+          "workingDir" : {
+            "description" : "Home directory of the Integration Server instance.",
+            "type" : "string"
+          },
+          "updates" : {
+            "description" : "URL that returns the updates installed on this Integration Server instance.",
+            "type" : "string"
+          }
+        }
+      },
+      "PackagesManagerActionOut" : {
+        "type" : "object",
+        "required" : [ "message" ],
+        "properties" : {
+          "message" : {
+            "description" : "Descriptive success or failure response for the action taken on a package.",
+            "type" : "string"
+          }
+        }
+      },
+      "TradingNetworks" : {
+        "type" : "object",
+        "properties" : {
+          "productCode" : {
+            "description" : "Trading Networks product code.",
+            "type" : "string"
+          },
+          "maxPartners" : {
+            "description" : "Maximum number of allowed partners for Trading Networks.",
+            "type" : "string"
+          }
+        }
+      },
+      "PackageUpdates" : {
+        "type" : "object",
+        "properties" : {
+          "packageName" : {
+            "description" : "A package name",
+            "type" : "string"
+          },
+          "packageUpdates" : {
+            "description" : "The installed updates for a package",
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "Packages" : {
+        "type" : "object",
+        "properties" : {
+          "packages" : {
+            "description" : "All installed, activated packages.",
+            "type" : "array",
+            "items" : {
+              "oneOf" : [ {
+                "$ref" : "#/components/schemas/Link"
+              }, {
+                "$ref" : "#/components/schemas/PackageInfoOut"
+              } ]
+            }
+          }
+        }
+      },
+      "LicenseUpdateIn_Patch" : {
+        "type" : "object",
+        "properties" : {
+          "licenseKeyFile" : {
+            "description" : "The path to where the license key file is stored.",
+            "type" : "string"
+          },
+          "terracottaLicenseFile" : {
+            "description" : "The path to where the Terracotta license file is stored",
+            "type" : "string"
+          }
+        }
+      },
+      "Terracotta" : {
+        "type" : "object",
+        "properties" : {
+          "terracottaLicenseFileSet" : {
+            "description" : "The location of the Terracotta file.",
+            "type" : "string"
+          },
+          "isBigMemoryLicensed" : {
+            "description" : "Whether BigMemory is licensed.",
+            "type" : "boolean"
+          },
+          "expirationDate" : {
+            "description" : "The license expiration date.",
+            "type" : "string"
+          },
+          "actionRequired" : {
+            "description" : "Instructs the user to restart the server when the Terracotta license file is changed.",
+            "type" : "string"
+          }
+        }
+      },
+      "LicenseInformation" : {
+        "type" : "object",
+        "properties" : {
+          "priceUnit" : {
+            "description" : "The number of core processors per CPU that this Integration Server is licensed to run on.",
+            "type" : "string"
+          },
+          "priceQuantity" : {
+            "description" : "The number of CPUs that this Integration Server is licensed to run on.",
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "typeOfInstallation" : {
+            "description" : "Environment used for the installation. For example, Production. ",
+            "type" : "string"
+          },
+          "licenseType" : {
+            "description" : "Whether the license type is Standard or Limited.",
+            "type" : "string"
+          },
+          "extendedRights" : {
+            "description" : "Shows what the extnded right are. For example, Virtual Machine",
+            "type" : "string"
+          },
+          "licenseVersion" : {
+            "description" : "Version number of the license.",
+            "type" : "number",
+            "format" : "float"
+          },
+          "metering" : {
+            "description" : "Indicates if license is metered, and if yes, what kind of metering.",
+            "type" : "string"
+          }
+        }
+      },
+      "Link" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "description" : "Name of the link",
+            "type" : "string"
+          },
+          "url" : {
+            "description" : "URL of the link",
+            "type" : "string"
+          }
+        }
+      },
+      "SalesInformation" : {
+        "type" : "object",
+        "properties" : {
+          "serialNumber" : {
+            "description" : "License serial number. ",
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "licenseKey" : {
+            "description" : "License key for the license. ",
+            "type" : "string"
+          },
+          "customerID" : {
+            "description" : "Customer ID associated with the license.",
+            "type" : "string"
+          },
+          "customerName" : {
+            "description" : "Customer name on the license.",
+            "type" : "string"
+          },
+          "contractDetails" : {
+            "description" : "Contract details used for delivery.",
+            "type" : "string"
+          },
+          "licenseTypeDetails" : {
+            "description" : "License type, either external or internal.",
+            "type" : "string"
+          },
+          "autoCallHome" : {
+            "description" : "Whether auto call home is activated.",
+            "type" : "boolean"
+          }
+        }
+      }
+    }
+  }
+}

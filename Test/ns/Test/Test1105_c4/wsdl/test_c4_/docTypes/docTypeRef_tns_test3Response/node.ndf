@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <record name="record" javaclass="com.wm.util.Values">
+    <value name="node_type">record</value>
+    <value name="node_subtype">unknown</value>
+    <value name="node_nsName">Test.Test1105_c4.wsdl.test_c4_.docTypes:docTypeRef_tns_test3Response</value>
+    <value name="node_pkg">Test</value>
+    <value name="is_public">false</value>
+    <value name="field_type">record</value>
+    <value name="field_dim">0</value>
+    <value name="nillable">true</value>
+    <value name="form_qualified">false</value>
+    <value name="is_global">false</value>
+    <value name="schemaDomain">a72bd72b3648491c9c3eca7944768123</value>
+    <value name="docTypeDomain">90a4d9b9f01a483a982b45b7c544926e</value>
+    <value name="originURI">http://localhost:5555/ws/Test.Test1105_c3.wsdl:test_c3?WSDL</value>
+    <array name="rec_fields" type="record" depth="1">
+      <record javaclass="com.wm.util.Values">
+        <value name="node_type">record</value>
+        <value name="node_subtype">unknown</value>
+        <value name="is_public">false</value>
+        <value name="field_name">oracleSelectOutput</value>
+        <value name="field_type">recref</value>
+        <value name="field_dim">0</value>
+        <value name="nillable">true</value>
+        <value name="form_qualified">false</value>
+        <value name="is_global">false</value>
+        <value name="rec_closed">true</value>
+        <value name="modifiable">true</value>
+        <value name="rec_ref">Test.Test1105_c4.wsdl.test_c4_.docTypes:docTypeRef_tns_oracleSelectOutput</value>
+      </record>
+    </array>
+    <record name="schemaType" javaclass="com.wm.util.Values">
+      <value name="xmlns">http://DESKTOP-40ULD4J/Test.Test1105.wsdl:test_p3</value>
+      <value name="ncName">test3Response</value>
+    </record>
+    <value name="schemaRegistered">true</value>
+    <value name="modifiable">false</value>
+  </record>
+</Values>

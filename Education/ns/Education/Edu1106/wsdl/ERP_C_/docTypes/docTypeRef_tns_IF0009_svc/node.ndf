@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <record name="record" javaclass="com.wm.util.Values">
+    <value name="node_type">record</value>
+    <value name="node_subtype">unknown</value>
+    <value name="node_nsName">Education.Edu1106.wsdl.ERP_C_.docTypes:docTypeRef_tns_IF0009_svc</value>
+    <value name="node_pkg">Education</value>
+    <value name="is_public">false</value>
+    <value name="field_type">record</value>
+    <value name="field_dim">0</value>
+    <value name="nillable">true</value>
+    <value name="form_qualified">false</value>
+    <value name="is_global">false</value>
+    <value name="schemaDomain">08d09ccd0d9a4a298bd440635ef3aa18</value>
+    <value name="docTypeDomain">a6a2d4851ce94637835fb0e7889ea018</value>
+    <value name="originURI">http://192.168.1.207:5555/ws/orangeduo.IF0009.wsdl:IF0009_P?WSDL</value>
+    <array name="rec_fields" type="record" depth="1">
+      <record javaclass="com.wm.util.Values">
+        <value name="node_type">record</value>
+        <value name="node_subtype">unknown</value>
+        <value name="is_public">false</value>
+        <value name="field_name">INPUT</value>
+        <value name="field_type">recref</value>
+        <value name="field_dim">0</value>
+        <value name="nillable">true</value>
+        <value name="form_qualified">false</value>
+        <value name="is_global">false</value>
+        <value name="rec_closed">true</value>
+        <value name="modifiable">true</value>
+        <value name="rec_ref">Education.Edu1106.wsdl.ERP_C_.docTypes:docTypeRef_tns_INPUT</value>
+      </record>
+    </array>
+    <record name="schemaType" javaclass="com.wm.util.Values">
+      <value name="xmlns">http://DESKTOP-61VBOK5/orangeduo.IF0009.wsdl:IF0009_P</value>
+      <value name="ncName">IF0009_svc</value>
+    </record>
+    <value name="schemaRegistered">true</value>
+    <value name="modifiable">false</value>
+  </record>
+</Values>
